@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<body style="background-color: rgb(210, 210, 210);">
+
+   <div class="page">
+    
+        <header class="header">
+            <div class="wrapper">
+                <div class="header_wrapper">
+                    <div class="header_logo">
+                        <a href="./main.html" class="header_logo-link">
+                            <img src="./img/logo.jpg" class="header_logo">
+                        </a>
+                    </div>
+            
+                    <nav class="header_nav">
+                        <ul class="menu">
+                            <li class="header_item">
+                                <a href="main.html" class="header_link">Главная</a>
+                            </li>
+            
+                            <li class="header_item active_link">
+                                <a href="analytics.html" class="header_link" style="color: #23B04A;">Аналитика</a>
+                            </li>
+                        </ul>     
+                    </nav>
+
+                    <div class="user">
+                        <div class="ava">
+                            <img src="./img/user.png" class="ava">
+                        </div>
+                    </div> 
+                </div>
+            </div>
+                
+        </header>
+
+        <div class="card_data">
+            <div class="card_top">
+                <div class="card_header">
+                    <div class="card_pic">
+                        <div class="ava_instr">
+                            <img src="./img/pH.png" style="width: 40px;
+                            height: 40px;
+                            background: #F0F0F0;">
+                        </div>
+                    </div>
+                    <div class="card_fullname">
+                            <div class="card_tutle">
+                                pH-метр Mettler-Toledo International, Inc. SevenCompact S220
+                            </div>
+                            <div class="in_sosto">S1.4.I14-9.001 * 00-024004</div>
+                    </div>
+                    <div class="card_action">
+                        <select class="cardstate greencard" style="color: rgba(35, 176, 74, 1);">
+                            <option>В работе</option>
+                            <option>Свободен</option>
+                        </select>
+
+                        <div class="settings_box">
+                            <div class="setting">
+                                <img src="./img/favorite.png" style="margin-left: 10px; margin-top: 11px;">
+                            </div>
+                        </div>
+                        <div class="settings_box">
+                                <div class="setting">
+                                    <img src="./img/settings.png" style="margin-left: 10.65px;
+                                                                        margin-top: 10.4px;">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="select_action">
+                <div class="select_action_wrapper">
+                    <div class="list_select">
+                        <div class="work_with">
+                            Работа прибора
+                        </div>
+                        <div class="arrow">
+                            <img src="./img/arrow_drop_down_24px.png">
+                        </div>
+                    </div>
+                    <div class="save_button">
+                        <div class="timer">
+                            <img src="./img/alarm_on.png" style="margin-top: 8px; margin-left: 8px;">
+                        </div>
+                        <button class="pdf_save text_save_pdf" id="buttonSavePDF" onclick="createPDF()">
+                            Сохранить PDF
+                            <div style="margin-left: 20px;
+                            width: 24px;
+                            height: 24px;
+                            flex: none;
+                            order: 1;
+                            flex-grow: 0;">
+                                <img src="./img/more_vert_24px.png">
+
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="date_time">
+                <div class="date_inpute">
+                    <div class="date_icon" style="margin-left: 16px;">
+                        <input type="date" id="dateAt" name="date" class="date_text"/>
+                    </div>
+                    <div>
+                        <img src="./img/arrow_forward.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="date_icon">
+                        <input type="date" id="dateNow" name="date" class="date_text"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time_chips">
+                <div class="chips">
+                    <div class="day" style="width: 59px; height: 32px;">
+                        <div class="day_label">День</div>
+                    </div>
+                    <div class="day" style="width: 75px; height: 32px;">
+                        <div class="day_label">Неделя</div>
+                    </div>
+                    <div class="day" style="width: 95px; height: 32px; background: #C2E7C8;">
+                        <div class="day_label">2 недели</div>
+                    </div>
+                    <div class="day" style="width: 68px; height: 32px;">
+                        <div class="day_label">Месяц</div>
+                    </div>
+                    <div class="day" style="width: 95px; height: 32px;">
+                        <div class="day_label">3 месяца</div>
+                    </div>
+                    <div class="day" style="width: 81px; height: 32px;">
+                        <div class="day_label">Полгода</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table" id="table" name="table">
+                <div class="table_row_header in_line">
+                    <div>
+                        <div class="duration in_line">
+                            <div style="width: 136px; height: 20px; color: rgba(0, 0, 0, 0.38); margin-left: 12px;">
+                                Начало
+                            </div>
+                        </div>
+                        <div class="tab_type in_line">
+                            <div style="width: 106px; height: 20px; color: rgba(0, 0, 0, 0.38);">
+                                Тип работы
+                            </div>
+                        </div>
+                        <div class="tab_jobs in_line">
+                            <div style="width: 462px; height: 20px; color: rgba(0, 0, 0, 0.38);">
+                                Работы
+                            </div>
+                        </div>
+                        <div class="tab_result in_line">
+                            <div style="width: 116px; height: 20px; color: rgba(0, 0, 0, 0.38);">
+                                Результат
+                            </div>
+                        </div>
+                        <div class="tab_user in_line">
+                            <div style="width: 116px; height: 20px; color: rgba(0, 0, 0, 0.38);">
+                                Пользователь
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table_rows">
+                    <div class="in_line">
+                        <div class="tab_duration in_line">
+                            <div style="margin-left: 12px;" id="row_date">09.10.2021, 15:46</div>
+                        </div>
+        
+                        <div class="tab_status in_line">
+                            <div class="tab_status_part_one" style="margin-left: 12px; margin-top: 12px;">
+                                В работе
+                            </div>
+                            <div class="tab_status_part_two" style="margin-left: 12px;">
+                                Измерение
+                            </div>
+                        </div>
+        
+                        <div class="tab_row_job in_line">
+                            <div style="margin-left: 12px; margin-top: 12px;">
+                                <div class="in_line">Образец/серия:</div> 
+                                <div class="in_line" style="font-weight: 400;">000100057935_170000010325_000025</div>
+                            </div>
+                        </div>
+        
+                        <div class="tab_row_result in_line">
+                            <img src="./img/check.png" style="width: 20px; height: 20px; margin-top: 12px; margin-left: 114px;">
+                        </div>
+        
+                        <div class="tab_row_user in_line">
+                            <div style="margin-left: 12px; margin-top: 12px; color: #2E9BC2;">morozovava</div>
+                        </div>
+                    </div>    
+                </div>
+
+                <div class="table_rows">
+                        <div class="in_line">
+                            <div class="tab_duration in_line">
+                                <div style="margin-left: 12px;">12.10.2021, 12:17</div>
+                            </div>
+        
+                            <div class="tab_status in_line">
+                                <div class="tab_status_part_one" style="margin-left: 12px; margin-top: 12px;">
+                                    В работе
+                                </div>
+                                <div class="tab_status_part_two" style="margin-left: 12px;">
+                                    Калибровка
+                                </div>
+                            </div>
+        
+                            <div class="tab_row_job in_line">
+                                <div style="margin-left: 12px; margin-top: 12px; font-weight: 500;">
+                                    <div>Номер колонки: Колонка 2 </div>
+                                    <div>Образец: Образец 2</div> 
+                                    <div>Образец: образец 1 </div>
+                                    <div>Метод: метов тестовый</div> 
+                                    <div>Номер колонки: Колонка 1</div>
+                                </div>
+                            </div>
+        
+                            <div class="tab_row_result in_line">
+                                <div style="margin-left: 12px; margin-top: 12px;">
+                                    Промывка с указанием вещества: Вещество 
+                                    Комментарий: тест...
+                                </div>
+                                <img src="./img/check.png" style="width: 20px; height: 20px; margin-top: 12px;">
+                            </div>
+        
+                            <div class="tab_row_user in_line">
+                                <div style="margin-left: 12px; margin-top: 12px; color: #2E9BC2;">morozovava</div>
+                            </div>
+                        </div>
+                        
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+
+        var socket = io.connect();
+
+        function createPDF() {
+            socket.emit('create PDF');
+        };
+
+    </script>
+
+</body>
+</html>
